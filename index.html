@@ -5,19 +5,24 @@
 
   <style>
     body{
-      font-family: Arial;
       background:#111;
       color:white;
-      padding:40px;
+      font-family:Arial;
+      padding:30px;
     }
 
     h1{
       color:#00ffcc;
     }
 
-    a{
-      display:block;
+    .file{
+      background:#1e1e1e;
+      padding:12px;
       margin:10px 0;
+      border-radius:10px;
+    }
+
+    a{
       color:#66ccff;
       text-decoration:none;
       font-size:18px;
@@ -25,13 +30,6 @@
 
     a:hover{
       color:white;
-    }
-
-    .file{
-      background:#1e1e1e;
-      padding:12px;
-      border-radius:10px;
-      margin-bottom:10px;
     }
   </style>
 </head>
@@ -43,11 +41,11 @@
 <div id="files"></div>
 
 <script>
-async function loadFiles() {
+
+async function loadFolder(folder) {
 
   const username = "Logic-Legend-Ranveer";
   const repo = "public-files";
-  const folder = "files";
 
   const url =
   `https://api.github.com/repos/${username}/${repo}/contents/${folder}`;
@@ -57,24 +55,31 @@ async function loadFiles() {
 
   const filesDiv = document.getElementById("files");
 
-  data.forEach(file => {
+  data.forEach(item => {
 
-    const link = document.createElement("a");
+    if(item.type === "file"){
 
-    link.href = file.download_url;
-    link.textContent = file.name;
-    link.target = "_blank";
+      const div = document.createElement("div");
+      div.className = "file";
 
-    const div = document.createElement("div");
-    div.className = "file";
+      const link = document.createElement("a");
 
-    div.appendChild(link);
+      link.href = item.download_url;
+      link.textContent = item.name;
+      link.target = "_blank";
 
-    filesDiv.appendChild(div);
+      div.appendChild(link);
+
+      filesDiv.appendChild(div);
+    }
+
   });
+
 }
 
-loadFiles();
+loadFolder("files/documents");
+loadFolder("files/images");
+
 </script>
 
 </body>
