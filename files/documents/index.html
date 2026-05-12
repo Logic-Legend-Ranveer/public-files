@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Files</title>
+
+  <style>
+    body{
+      background:#111;
+      color:white;
+      font-family:Arial;
+      padding:30px;
+    }
+
+    h1{
+      color:#00ffcc;
+    }
+
+    .file{
+      background:#1e1e1e;
+      padding:12px;
+      margin:10px 0;
+      border-radius:10px;
+    }
+
+    a{
+      color:#66ccff;
+      text-decoration:none;
+      font-size:18px;
+    }
+
+    a:hover{
+      color:white;
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>Downloads</h1>
+
+<div id="files"></div>
+
+<script>
+
+async function loadFolder(folder) {
+
+  const username = "Logic-Legend-Ranveer";
+  const repo = "public-files";
+
+  const url =
+  `https://api.github.com/repos/${username}/${repo}/contents/${folder}`;
+
+  const response = await fetch(url);
+  const data = await response.json();
+
+  const filesDiv = document.getElementById("files");
+
+  data.forEach(item => {
+
+    if(item.type === "file"){
+
+      const div = document.createElement("div");
+      div.className = "file";
+
+      const link = document.createElement("a");
+
+      link.href = item.download_url;
+      link.textContent = item.name;
+      link.target = "_blank";
+
+      div.appendChild(link);
+
+      filesDiv.appendChild(div);
+    }
+
+  });
+
+}
+
+loadFolder("files/documents");
+loadFolder("files/images");
+
+</script>
+
+</body>
+</html>
